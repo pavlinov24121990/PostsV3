@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :posts
   has_many :comments
+  validates :name, presence: true, length: {minimum: 2, maximum: 20}
+  validates :surname, presence: true, length: {minimum: 2, maximum: 20}
 end
