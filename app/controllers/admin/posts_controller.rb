@@ -1,20 +1,16 @@
 module Admin
   class PostsController < ApplicationController
-    before_action :user_params, only: %i[new create]
     before_action :admin_acces
-    before_action :post_find, only: %i[show edit destroy update]
+    before_action :post_find, only: %i[edit destroy update]
 
     def index
-      @post = Post.order(created_at: :desc)
+      @posts = Post.order(created_at: :desc)
     end
 
     def new
-      @post = @user.posts.new
+      @post = current_user.posts.new
     end
     
-    def show
-    end
-
     def edit
     end
 
@@ -23,13 +19,13 @@ module Admin
         redirect_to admin_posts_path
         flash[:success] = "Post deleted"
       else
-        render :show
+        render :edit
       end
     end
 
     def update
       if @post.update(post_params)
-        redirect_to admin_post_path
+        redirect_to admin_posts_path
         flash[:success] = "Post updated"
       else
         render :edit
@@ -37,7 +33,7 @@ module Admin
     end
 
     def create
-      @post = @user.posts.build(post_params)
+      @post = current_user.posts.build(post_params)
       if @post.save
         redirect_to admin_posts_path
         flash[:success] = "Post created"
@@ -51,16 +47,14 @@ module Admin
       params.require(:post).permit(:title, :body)
     end
     
-    def user_params
-      @user = current_user
-    end
-
     def post_find
       @post = Post.find(params[:id])
     end
 
     def admin_acces
-      unless current_user&.status?
+      if current_user&.admin?
+        flash[:success] = 'Доступ разрешён'
+      else
         flash[:alert] = 'Доступ запрещен'
         redirect_to root_path
       end

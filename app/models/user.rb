@@ -10,4 +10,7 @@ class User < ApplicationRecord
   def full_name
     full_name = "#{name} #{surname}"
   end
+  enum role: %i[user admin]
+
+
 end
