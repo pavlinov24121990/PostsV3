@@ -7,7 +7,6 @@ class User < ApplicationRecord
   has_many :comments
   validates :name, presence: true, length: {minimum: 2, maximum: 20}
   validates :surname, presence: true, length: {minimum: 2, maximum: 20}
-
   def full_name
     full_name = "#{name} #{surname}"
   end
