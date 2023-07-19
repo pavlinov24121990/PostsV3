@@ -1,0 +1,13 @@
+<%= form_with model: [:admin, @post] do |f| %>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :body %><br />
+    <%= f.text_field :body %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Create post" %>
+  </div>
+<% end %>
