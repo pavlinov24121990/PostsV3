@@ -1,4 +1,7 @@
 <div class="container">
+  <% if flash[:success].present? %>
+    <h3 class="mb-md-5"> <%= flash[:success] %> </h3>
+  <% end %>
   <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
     <li>
       <h4> <%= @post.title %> </h4>
@@ -10,7 +13,11 @@
       <h6> <%= @post.user.full_name %> </h6>
     </li>
     <li class="list-group">
+      <%= button_to "Delete post", admin_post_path(@post), method: :delete, confirm: "Are you shure?" %>
+    </li>
+    <li class="list-group">
       <%= link_to "Update post", edit_admin_post_path(@post) %>
     </li>
   </ul>
+  
 </div>

@@ -14,10 +14,7 @@
         <h6> <%= post.user.full_name %> </h6>
       </li>
       <li class="list-group">
-        <%= link_to "Update post", edit_admin_post_path(post) %>
-      </li>
-      <li class="list-group">
-       <%= button_to "Delete post", admin_post_path(post), method: :delete, confirm: "Are you shure?" %>
+        <%= link_to "Show post", admin_post_path(post) %>
       </li>
     <% end %>
   </ul>
