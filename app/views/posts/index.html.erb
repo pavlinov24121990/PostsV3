@@ -6,6 +6,9 @@
     <% @posts.each do |post| %>
 <h4> <%= flash[:alert] %> </h4>
 <div class="container">
+  <% if flash[:success].present? %>
+    <h3 class="mb-md-5"> <%= flash[:success] %> <%= flash[:alert] %> </h3>
+  <% end %>
   <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
     <% @post.each do |post| %>
       <li>
