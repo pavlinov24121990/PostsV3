@@ -1,6 +1,6 @@
 <div class="container">
     <nav class="d-flex flex-wrap aling-items-center justify-content-center justify-content-lg-start">
-      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-5">
         <% if user_signed_in? %>
           <li>
               <%= link_to "User update", edit_user_registration_path, class: "nav-link px-5 mr-10" %>
@@ -17,6 +17,14 @@
             <%= link_to "Log in", new_user_session_path, class: "nav-link px-5 mr-10" %>
           <% end %>
         </li>
+        <% if current_user&.status?%>
+          <li>
+            <%= link_to "Admin panel", admin_posts_path, class: "nav-link px-5 mr-10" %>
+          </li>
+          <li>
+            <%= link_to "Create post", new_admin_post_path, class: "nav-link px-5 mr-10" %>
+          </li>
+        <% end %>
       </ul>
     </nav>
   </div>

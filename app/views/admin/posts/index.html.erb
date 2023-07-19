@@ -1,7 +1,7 @@
-
-<%= flash[:success] %>
-<h4> <%= flash[:alert] %> </h4>
 <div class="container">
+  <% if flash[:success].present? %>
+    <h3 class="mb-md-5"> <%= flash[:success] %> </h3>
+  <% end %>
   <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
     <% @post.each do |post| %>
       <li>
@@ -14,7 +14,7 @@
         <h6> <%= post.user.full_name %> </h6>
       </li>
       <li class="list-group">
-         <%= link_to "Show post", post_path(post) %>
+        <%= link_to "Show post", admin_post_path(post) %>
       </li>
     <% end %>
   </ul>
