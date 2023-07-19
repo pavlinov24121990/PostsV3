@@ -3,8 +3,8 @@
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-5">
         <% if user_signed_in? %>
           <li>
-              <%= link_to "User update", edit_user_registration_path, class: "nav-link px-5 mr-10" %>
-              <%= current_user.full_name %>
+            <%= link_to "User update", edit_user_registration_path, class: "nav-link px-5 mr-10" %>
+            <%= current_user.full_name %>
           </li>
         <% end %>
         <li>
