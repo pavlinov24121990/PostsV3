@@ -8,6 +8,6 @@ class User < ApplicationRecord
   validates :name, presence: true, length: {minimum: 2, maximum: 20}
   validates :surname, presence: true, length: {minimum: 2, maximum: 20}
   def full_name
-    full_name = self&.name&.concat(" ")&.concat(self&.surname)
+    full_name = "#{self.name} #{self.surname}"
   end
 end

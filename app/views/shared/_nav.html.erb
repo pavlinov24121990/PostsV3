@@ -1,16 +1,10 @@
 <div class="container">
     <nav class="d-flex flex-wrap aling-items-center justify-content-center justify-content-lg-start">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li>
-          <% if user_signed_in? %>
-            <%= link_to "User update", edit_user_registration_path, class: "nav-link px-5 mr-10" %>
-          <% end %>
-        </li>
         <% if user_signed_in? %>
           <li>
-            <h2>
-                <%= current_user.full_name %>
-            </h2>
+              <%= link_to "User update", edit_user_registration_path, class: "nav-link px-5 mr-10" %>
+              <%= current_user.full_name %>
           </li>
         <% end %>
         <li>
