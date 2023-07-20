@@ -1,6 +1,6 @@
 <div class="container">
-  <% if flash[:success].present? %>
-    <h3 class="mb-md-5"> <%= flash[:success] %> </h3>
+  <% if flash[:success || :alert].present? %>
+    <h3 class="mb-md-5"> <%= flash[:success] %> <%= flash[:alert] %> </h3>
   <% end %>
   <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
     <li>
@@ -15,9 +15,28 @@
     <li class="list-group">
       <%= button_to "Delete post", admin_post_path(@post), method: :delete, confirm: "Are you shure?" %>
     </li>
-    <li class="list-group">
+    <li class="list-group mb-5">
       <%= link_to "Update post", edit_admin_post_path(@post) %>
     </li>
+    <% @post.comments.each do |comment| %>
+      <li>
+        <p> <%= comment.body %> </p>
+      </li>
+      <li class="list-group">
+        <h6> <%= comment.user.full_name %> </h6>
+      </li>
+      <li class="list-group">
+        <%= button_to "Delete comment", post_comment_path(@post, comment), method: :delete, confirm: "Are you shure?" %>
+      </li>
+      <li class="list-group">
+        <%= link_to "Update comment", edit_post_comment_path(@post, comment) %>
+      </li>
+      <% if comment.approved? %>
+      <% else %>
+        <li class="list-group mb-5">
+          <%= button_to "Approve", admin_post_comment_path(@post, comment), method: :patch %>
+        </li>
+      <% end %>
+    <% end %>
   </ul>
-  
 </div>

@@ -13,9 +13,17 @@
       <li class="list-group">
         <h6> <%= post.user.full_name %> </h6>
       </li>
-      <li class="list-group">
+      <li class="list-group mb-5">
         <%= link_to "Show post", admin_post_path(post) %>
       </li>
+      <% post.comments.limit(2).approved.each do |comment| %>
+        <li>
+          <p> <%= comment.body %> </p>
+        </li>
+        <li class="list-group mb-3">
+          <h6> <%= comment.user.full_name %> </h6>
+        </li>
+      <% end %>
     <% end %>
   </ul>
 </div>

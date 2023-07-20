@@ -6,4 +6,5 @@ class Comment < ApplicationRecord
 
   scope :approved, -> { where(approved: :approved) }
   
+  
 end

@@ -1,15 +1,13 @@
 module Admin
   class PostsController < ApplicationController
-    before_action :user_params, only: %i[new create]
-    before_action :admin_acces
     before_action :post_find, only: %i[show edit destroy update]
 
     def index
-      @post = Post.order(created_at: :desc)
+      @posts = Post.order(created_at: :desc)
     end
 
     def new
-      @post = @user.posts.new
+      @post = current_user.posts.new
     end
     
     def show
@@ -47,6 +45,7 @@ module Admin
     end
 
     private
+
     def post_params
       params.require(:post).permit(:title, :body)
     end
@@ -54,7 +53,6 @@ module Admin
     def post_find
       @post = Post.find(params[:id])
     end
-
    
   end
 end

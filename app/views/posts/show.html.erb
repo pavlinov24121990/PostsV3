@@ -9,7 +9,7 @@
     <li class="list-group mb-3"">
       <h6> <%= @post.user.full_name %> </h6>
     </li>
-    <%= render 'shared/form' %>
+    <%= render 'shared/formComment' %>
     <% @post.comments.approved.each do |comment| %>
       <li>
         <p> <%= comment.body %> </p>
