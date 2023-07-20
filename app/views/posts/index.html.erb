@@ -23,6 +23,10 @@
       <li class="list-group">
          <%= link_to "Show post", post_path(post) %>
       </li>
+
+      <% @post.comments.approved.each do |comment| %>
+
+      <% end %>
     <% end %>
   </ul>
 </div>
