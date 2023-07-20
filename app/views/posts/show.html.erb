@@ -6,8 +6,17 @@
     <li>
       <p> <%= @post.body %> </p>
     </li>
-    <li class="list-group">
+    <li class="list-group mb-3"">
       <h6> <%= @post.user.full_name %> </h6>
     </li>
+    <%= render 'shared/form' %>
+    <% @post.comments.approved.each do |comment| %>
+      <li>
+        <p> <%= comment.body %> </p>
+      </li>
+      <li class="list-group mb-5">
+        <h6> <%= comment.user.full_name %> </h6>
+      </li>
+    <% end %>
   </ul>
 </div>
