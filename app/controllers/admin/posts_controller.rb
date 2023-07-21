@@ -1,6 +1,6 @@
 module Admin
-  class PostsController < ApplicationController
-    before_action :post_find, only: %i[show edit destroy update]
+  class PostsController < AdminController
+    before_action :post_find, only: %i[edit destroy update]
 
     def index
       @posts = Post.order(created_at: :desc)
@@ -10,9 +10,6 @@ module Admin
       @post = current_user.posts.new
     end
     
-    def show
-    end
-
     def edit
     end
 
@@ -27,7 +24,7 @@ module Admin
 
     def update
       if @post.update(post_params)
-        redirect_to admin_post_path
+        redirect_to edit_admin_post_path
         flash[:success] = "Post updated"
       else
         render :edit

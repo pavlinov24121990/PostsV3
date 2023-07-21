@@ -1,4 +1,4 @@
-class CommentsController < ApplicationController
+class CommentsController < AdminController
   before_action :authenticate_user!
   before_action :post_find
   before_action :comment_find, except: %i[create]
@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
     @comment.user = current_user
     if @comment.save
       redirect_to posts_path
-      flash[:success] = "Comment created!"
+      flash[:success] = "Comment go approved to admin!"
     else
       render 'posts/show'
     end
@@ -17,11 +17,11 @@ class CommentsController < ApplicationController
   def destroy
     @comment = @post.comments.find(params[:id])
     if @comment.destroy
-      redirect_to admin_post_path(@post)
+      redirect_to edit_admin_post_path(@post)
       flash[:success] = "Comment deleted!"
     else
       flash[:alert] = "Errors!"
-      redirect_to admin_post_path(@post)
+      redirect_to edit_admin_post_path(@post)
     end
   end
 
@@ -31,11 +31,11 @@ class CommentsController < ApplicationController
   def update
     @comment = @post.comments.find(params[:id])
     if @comment.update(comment_params)
-      redirect_to admin_post_path(@post)
+      redirect_to edit_admin_post_path(@post)
       flash[:success] = "Comment update!"
     else
       flash[:alert] = "Errors!"
-      redirect_to admin_post_path(@post)
+      render :edit
     end
   end
 
