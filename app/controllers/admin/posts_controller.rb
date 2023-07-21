@@ -24,7 +24,7 @@ module Admin
 
     def update
       if @post.update(post_params)
-        redirect_to admin_posts_path
+        redirect_to edit_admin_post_path
         flash[:success] = "Post updated"
       else
         render :edit
@@ -50,7 +50,6 @@ module Admin
     def post_find
       @post = Post.find(params[:id])
     end
-
    
   end
 end

@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
   namespace :admin do
-    resources :posts do
-      resources :comments
+    resources :posts, except: %i[show] do
+      resources :comments, only: %i[update]
     end 
   end
-  resources :posts do
-      resources :comments
+  resources :posts, only: %i[index show] do
+      resources :comments, only: %i[create destroy edit update]
     end 
   root "posts#index"
 end
