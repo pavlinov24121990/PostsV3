@@ -9,7 +9,7 @@ module Admin
         redirect_to edit_admin_post_path(@post)
       else
         flash[:alert] = "Errors!"
-        redirect_to edit_admin_post_path(@post)
+        redirect_to edit_admin_post_path(@post), status: :unprocessable_entity
       end
     end
   end

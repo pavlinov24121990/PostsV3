@@ -2,6 +2,7 @@
   <% if flash[:success].present? || flash[:alert].present?%>
     <h3 class="mb-md-5"> <%= flash[:success] %> <%= flash[:alert] %> </h3>
   <% end %>
+  <% @paginated_comments = Kaminari.paginate_array(@post.comments).page(params[:page]).per(3) %>
   <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
     <li class="list-group">
       <%= render 'shared/form' %>
@@ -9,7 +10,7 @@
     <li class="list-group mb-5">
       <%= link_to "Delete post", admin_post_path(@post), data: { turbo_method: :delete, turbo_confirm: "Are you shure?" } %>
     </li>
-    <% @post.comments.each do |comment| %>
+    <% @paginated_comments.each do |comment| %>
       <li>
         <p> <%= comment.body %> </p>
       </li>
@@ -29,4 +30,5 @@
       <% end %>
     <% end %>
   </ul>
+  <%= paginate @paginated_comments%>
 </div>

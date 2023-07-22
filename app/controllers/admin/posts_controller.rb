@@ -18,7 +18,7 @@ module Admin
         redirect_to admin_posts_path
         flash[:success] = "Post deleted"
       else
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
 
@@ -27,7 +27,7 @@ module Admin
         redirect_to edit_admin_post_path
         flash[:success] = "Post updated"
       else
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
 
@@ -37,7 +37,7 @@ module Admin
         redirect_to admin_posts_path
         flash[:success] = "Post created"
       else
-        render :new
+        render :new, status: :unprocessable_entity
       end
     end
 

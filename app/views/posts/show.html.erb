@@ -1,4 +1,5 @@
 <div class="container">
+  <% @paginated_comments = Kaminari.paginate_array(@post.comments.approved).page(params[:page]).per(2) %>
   <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
     <li>
       <h4> <%= @post.title %> </h4>
@@ -10,7 +11,7 @@
       <h6> <%= @post.user.full_name %> </h6>
     </li>
     <%= render 'shared/formComment' %>
-    <% @post.comments.approved.each do |comment| %>
+    <% @paginated_comments.each do |comment| %>
       <li>
         <p> <%= comment.body %> </p>
       </li>
@@ -19,4 +20,5 @@
       </li>
     <% end %>
   </ul>
+  <%= paginate @paginated_comments %>
 </div>
