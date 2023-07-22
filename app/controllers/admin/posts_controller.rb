@@ -3,7 +3,7 @@ module Admin
     before_action :post_find, only: %i[edit destroy update]
 
     def index
-      @posts = Post.order(created_at: :desc)
+      @posts = Post.order(created_at: :desc).page(params[:page])
     end
 
     def new
@@ -11,6 +11,7 @@ module Admin
     end
     
     def edit
+      @comments = @post.comments.page(params[:page])
     end
 
     def destroy

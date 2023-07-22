@@ -2,9 +2,8 @@
   <% if flash[:success].present? %>
     <h3 class="mb-md-5"> <%= flash[:success] %> </h3>
   <% end %>
-  <% @paginated_posts = Kaminari.paginate_array(@posts).page(params[:page]).per(2) %>
   <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-    <% @paginated_posts.each do |post| %>
+    <% @posts.each do |post| %>
       <li>
         <h4> <%= post.title %> </h4>
       </li>
@@ -17,15 +16,13 @@
       <li class="list-group mb-5">
         <%= link_to "Show post", edit_admin_post_path(post) %>
       </li>
-      <% post.comments.limit(2).approved.each do |comment| %>
-        <li>
-          <p> <%= comment.body %> </p>
-        </li>
-        <li class="list-group mb-3">
-          <h6> <%= comment.user.full_name %> </h6>
-        </li>
-      <% end %>
+      <li>
+        <p> <%= "Количество подтвержденных комментариев #{post.comments.approved.count}" %> </p>
+      </li>
+      <li>
+        <p> <%= "Количество комментариев на подтверждение #{post.comments.not_aprroved.count}" %> </p>
+      </li>
     <% end %>
   </ul>
-  <%= paginate @paginated_posts %>
+  <%= paginate @posts %>
 </div>
