@@ -13,10 +13,10 @@
       <li class="list-group">
         <h6> <%= post.user.full_name %> </h6>
       </li>
-      <li class="list-group mb-5">
+      <li class="list-group mb-2">
          <%= link_to "Show post", post_path(post) %>
       </li>
-      <li>
+      <li class="list-group mb-5">
         <p> <%= "Количество комментариев #{post.comments.approved.count}" %> </p>
       </li>
     <% end %>
