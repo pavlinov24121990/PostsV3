@@ -16,14 +16,13 @@
       <li class="list-group mb-5">
         <%= link_to "Show post", edit_admin_post_path(post) %>
       </li>
-      <% post.comments.limit(2).approved.each do |comment| %>
-        <li>
-          <p> <%= comment.body %> </p>
-        </li>
-        <li class="list-group mb-3">
-          <h6> <%= comment.user.full_name %> </h6>
-        </li>
-      <% end %>
+      <li>
+        <p> <%= "Количество подтвержденных комментариев #{post.comments.approved.count}" %> </p>
+      </li>
+      <li>
+        <p> <%= "Количество комментариев на подтверждение #{post.comments.not_aprroved.count}" %> </p>
+      </li>
     <% end %>
   </ul>
+  <%= paginate @posts %>
 </div>

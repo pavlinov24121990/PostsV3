@@ -3,7 +3,7 @@ module Admin
     before_action :post_find, only: %i[edit destroy update]
 
     def index
-      @posts = Post.order(created_at: :desc)
+      @posts = Post.order(created_at: :desc).page(params[:page])
     end
 
     def new
@@ -11,6 +11,7 @@ module Admin
     end
     
     def edit
+      @comments = @post.comments.page(params[:page])
     end
 
     def destroy
@@ -18,7 +19,7 @@ module Admin
         redirect_to admin_posts_path
         flash[:success] = "Post deleted"
       else
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
 
@@ -27,7 +28,7 @@ module Admin
         redirect_to edit_admin_post_path
         flash[:success] = "Post updated"
       else
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
 
@@ -37,7 +38,7 @@ module Admin
         redirect_to admin_posts_path
         flash[:success] = "Post created"
       else
-        render :new
+        render :new, status: :unprocessable_entity
       end
     end
 

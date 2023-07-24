@@ -10,7 +10,7 @@
       <h6> <%= @post.user.full_name %> </h6>
     </li>
     <%= render 'shared/formComment' %>
-    <% @post.comments.approved.each do |comment| %>
+    <% @comments.each do |comment| %>
       <li>
         <p> <%= comment.body %> </p>
       </li>
@@ -19,4 +19,5 @@
       </li>
     <% end %>
   </ul>
+  <%= paginate @comments %>
 </div>

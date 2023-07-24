@@ -2,14 +2,14 @@
   <% if flash[:success].present? || flash[:alert].present?%>
     <h3 class="mb-md-5"> <%= flash[:success] %> <%= flash[:alert] %> </h3>
   <% end %>
-  <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+  <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-3">
     <li class="list-group">
       <%= render 'shared/form' %>
     </li>
     <li class="list-group mb-5">
       <%= link_to "Delete post", admin_post_path(@post), data: { turbo_method: :delete, turbo_confirm: "Are you shure?" } %>
     </li>
-    <% @post.comments.each do |comment| %>
+    <% @comments.each do |comment| %>
       <li>
         <p> <%= comment.body %> </p>
       </li>
@@ -29,4 +29,5 @@
       <% end %>
     <% end %>
   </ul>
+  <%= paginate @comments %>
 </div>

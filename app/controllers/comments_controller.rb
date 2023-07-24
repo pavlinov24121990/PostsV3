@@ -10,7 +10,7 @@ class CommentsController < AdminController
       redirect_to posts_path
       flash[:success] = "Comment go approved to admin!"
     else
-      render 'posts/show'
+      render 'posts/show', status: :unprocessable_entity
     end
   end
 
@@ -35,7 +35,7 @@ class CommentsController < AdminController
       flash[:success] = "Comment update!"
     else
       flash[:alert] = "Errors!"
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
