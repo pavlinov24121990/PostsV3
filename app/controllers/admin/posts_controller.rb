@@ -28,6 +28,7 @@ module Admin
         redirect_to edit_admin_post_path
         flash[:success] = "Post updated"
       else
+        @comments = @post.comments.page(params[:page])
         render :edit, status: :unprocessable_entity
       end
     end

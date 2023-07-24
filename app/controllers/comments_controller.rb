@@ -10,6 +10,7 @@ class CommentsController < AdminController
       redirect_to posts_path
       flash[:success] = "Comment go approved to admin!"
     else
+      @comments = @post.comments.approved.page(params[:page])
       render 'posts/show', status: :unprocessable_entity
     end
   end
