@@ -1,0 +1,16 @@
+require:
+  - rubocop-rails-accessibility
+
+Style/Documentation:
+  Enabled: false
+
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  Exclude:
+    - "db/**/*"
+    - "bin/*"
+    - "config/**/*"
+    - "public/**/*"
+    - "vendor/**/*"
+    - "tmp/**/*"

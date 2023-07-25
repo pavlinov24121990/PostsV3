@@ -1,12 +1,15 @@
+# frozen_string_literal: true
+
 class PostsController < ApplicationController
+  include Pagy::Backend
 
   def index
-    @posts = Post.order(created_at: :desc).page(params[:page])
+    @pagy, @posts = pagy(Post.order(created_at: :desc), items: 2)
   end
-  
+
   def show
     @post = Post.find(params[:id])
-    @comments = @post.comments.approved.page(params[:page])
+    @pagy, @comments = pagy(@post.comments.approved, items: 2)
     @comment = @post.comments.new
   end
 end

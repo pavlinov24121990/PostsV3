@@ -1,16 +1,20 @@
+# frozen_string_literal: true
+
 class CommentsController < AdminController
   before_action :authenticate_user!
   before_action :post_find
   before_action :comment_find, except: %i[create]
+
+  include Pagy::Backend
 
   def create
     @comment = @post.comments.new(comment_params)
     @comment.user = current_user
     if @comment.save
       redirect_to posts_path
-      flash[:success] = "Comment go approved to admin!"
+      flash[:success] = 'Comment go approved to admin!'
     else
-      @comments = @post.comments.approved.page(params[:page])
+      @pagy, @comments = pagy(@post.comments.approved, items: 2)
       render 'posts/show', status: :unprocessable_entity
     end
   end
@@ -19,23 +23,22 @@ class CommentsController < AdminController
     @comment = @post.comments.find(params[:id])
     if @comment.destroy
       redirect_to edit_admin_post_path(@post)
-      flash[:success] = "Comment deleted!"
+      flash[:success] = 'Comment deleted!'
     else
-      flash[:alert] = "Errors!"
+      flash[:alert] = 'Errors!'
       redirect_to edit_admin_post_path(@post)
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @comment = @post.comments.find(params[:id])
     if @comment.update(comment_params)
       redirect_to edit_admin_post_path(@post)
-      flash[:success] = "Comment update!"
+      flash[:success] = 'Comment update!'
     else
-      flash[:alert] = "Errors!"
+      flash[:alert] = 'Errors!'
       render :edit, status: :unprocessable_entity
     end
   end

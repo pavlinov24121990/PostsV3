@@ -1,5 +1,7 @@
-class AdminController < ActionController::Base
-  layout "application"
+# frozen_string_literal: true
+
+class AdminController < ApplicationController
+  layout 'application'
   before_action :authenticate_user!
 
   protected

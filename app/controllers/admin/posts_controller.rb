@@ -1,23 +1,27 @@
+# frozen_string_literal: true
+
 module Admin
   class PostsController < AdminController
     before_action :post_find, only: %i[edit destroy update]
 
+    include Pagy::Backend
+
     def index
-      @posts = Post.order(created_at: :desc).page(params[:page])
+      @pagy, @posts = pagy(Post.order(created_at: :desc), items: 2)
     end
 
     def new
       @post = current_user.posts.new
     end
-    
+
     def edit
-      @comments = @post.comments.page(params[:page])
+      @pagy, @comments = pagy(@post.comments, items: 2)
     end
 
     def destroy
       if @post.destroy
         redirect_to admin_posts_path
-        flash[:success] = "Post deleted"
+        flash[:success] = 'Post deleted'
       else
         render :edit, status: :unprocessable_entity
       end
@@ -26,9 +30,9 @@ module Admin
     def update
       if @post.update(post_params)
         redirect_to edit_admin_post_path
-        flash[:success] = "Post updated"
+        flash[:success] = 'Post updated'
       else
-        @comments = @post.comments.page(params[:page])
+        @pagy, @comments = pagy(@post.comments, items: 2)
         render :edit, status: :unprocessable_entity
       end
     end
@@ -37,7 +41,7 @@ module Admin
       @post = current_user.posts.build(post_params)
       if @post.save
         redirect_to admin_posts_path
-        flash[:success] = "Post created"
+        flash[:success] = 'Post created'
       else
         render :new, status: :unprocessable_entity
       end
@@ -48,10 +52,9 @@ module Admin
     def post_params
       params.require(:post).permit(:title, :body)
     end
-    
+
     def post_find
       @post = Post.find(params[:id])
     end
-   
   end
 end
