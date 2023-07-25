@@ -1,0 +1,17 @@
+require:
+  - rubocop-rails-accessibility
+
+Style/Documentation:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Layout/LineLength:
+  Enabled: false
+
+Rails/EnumHash:
+Enabled: false
+
+Metrics/MethodLength:
+Enabled: false
