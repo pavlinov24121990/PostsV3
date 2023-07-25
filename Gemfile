@@ -76,4 +76,4 @@ end
 
 gem "devise", "~> 4.9"
 
-gem 'kaminari'
+gem 'pagy', '~> 6.0'

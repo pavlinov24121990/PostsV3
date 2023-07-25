@@ -3,6 +3,8 @@ class CommentsController < AdminController
   before_action :post_find
   before_action :comment_find, except: %i[create]
 
+  include Pagy::Backend
+
   def create
     @comment = @post.comments.new(comment_params)
     @comment.user = current_user
@@ -10,7 +12,7 @@ class CommentsController < AdminController
       redirect_to posts_path
       flash[:success] = "Comment go approved to admin!"
     else
-      @comments = @post.comments.approved.page(params[:page])
+      @pagy, @comments = pagy(@post.comments.approved, items: 2)
       render 'posts/show', status: :unprocessable_entity
     end
   end

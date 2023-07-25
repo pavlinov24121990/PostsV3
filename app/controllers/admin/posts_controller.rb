@@ -2,8 +2,10 @@ module Admin
   class PostsController < AdminController
     before_action :post_find, only: %i[edit destroy update]
 
+    include Pagy::Backend
+
     def index
-      @posts = Post.order(created_at: :desc).page(params[:page])
+      @pagy, @posts = pagy(Post.order(created_at: :desc), items: 2)
     end
 
     def new
@@ -11,7 +13,7 @@ module Admin
     end
     
     def edit
-      @comments = @post.comments.page(params[:page])
+      @pagy, @comments = pagy(@post.comments, items: 2)
     end
 
     def destroy
@@ -28,7 +30,7 @@ module Admin
         redirect_to edit_admin_post_path
         flash[:success] = "Post updated"
       else
-        @comments = @post.comments.page(params[:page])
+        @pagy, @comments = pagy(@post.comments, items: 2)
         render :edit, status: :unprocessable_entity
       end
     end

@@ -7,5 +7,4 @@ class Comment < ApplicationRecord
   scope :approved, -> { where(approved: true) }
   scope :not_aprroved, -> { where(approved: false) }
 
-  paginates_per 2
 end
