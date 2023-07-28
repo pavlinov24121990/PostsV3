@@ -10,6 +10,12 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
   <body>
+  <script>
+    document.addEventListener("turbo:submit-end", function(event) {
+      var form = event.detail.form;
+      form.reset();
+    });
+  </script>
     <%= render 'shared/nav'%>
     <%= yield %>
   </body>

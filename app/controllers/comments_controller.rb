@@ -11,18 +11,24 @@ class CommentsController < AdminController
     @comment = @post.comments.new(comment_params)
     @comment.user = current_user
     if @comment.save
-      
-      respond_to do |format|
-        format.html do
-          flash[:success] = 'Comment go approved to admin!'
-          redirect_to posts_path
-        end
-      end
+      redirect_to post_path(@post)
+      flash[:success] = 'Comment go approved to admin!'
     else
       @pagy, @comments = pagy(@post.comments.approved, items: 2)
       render 'posts/show', status: :unprocessable_entity
     end
   end
+      # ПРИМЕР!!!!!
+     # flash[:success] = 'Comment go approved to admin!'
+      # turbo_stream.append(:comments, @comment, partial: "comments/comments", locals: { comment: @comment })
+      #  turbo_stream.after(:append, :formComment) do
+      #   page[:f][:body].reset
+      # end
+      # respond_to do |format|
+      #   format.turbo_stream do
+      #     render turbo_stream: turbo_stream.append(:comments, @comment, partial: "comment", locals: { comment: @comment })
+      #   end
+      # end
 
   def destroy
     @comment = @post.comments.find(params[:id])
@@ -34,8 +40,6 @@ class CommentsController < AdminController
       redirect_to edit_admin_post_path(@post)
     end
   end
-
-  def edit; end
 
   def update
     @comment = @post.comments.find(params[:id])

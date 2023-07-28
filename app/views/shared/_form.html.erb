@@ -1,5 +1,5 @@
 <%= render 'shared/errors', object: @post %>
-<%= form_with model: [:admin, @post] do |f| %>
+<%= form_with model: [:admin, @post], data: { turbo_frame: "target" } do |f| %>
 
   <div class="field">
     <%= f.label :title %><br />

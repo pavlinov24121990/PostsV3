@@ -1,3 +1,6 @@
+<% if flash[:success].present? || flash[:alert].present? %>
+  <h3 class="mb-md-5"> <%= flash[:success] %> <%= flash[:alert] %> </h3>
+<% end %>
 <div class="container">
   <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
     <li>
@@ -10,14 +13,9 @@
       <h6> <%= @post.user.full_name %> </h6>
     </li>
     <%= render 'shared/formComment' %>
-    <% @comments.each do |comment| %>
-      <li>
-        <p> <%= comment.body %> </p>
-      </li>
-      <li class="list-group mb-5">
-        <h6> <%= comment.user.full_name %> </h6>
-      </li>
-    <% end %>
+    <div id="comments">
+      <%= render partial: "comments/comment", collection: @comments %>
+    </div>
   </ul>
   <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
 </div>
