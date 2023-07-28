@@ -7,11 +7,8 @@ module Admin
     include Pagy::Backend
 
     def index
-      @pagy, @posts = pagy(Post.order(created_at: :desc), items: 2)
-    end
-
-    def new
       @post = current_user.posts.new
+      @pagy, @posts = pagy(Post.order(created_at: :desc), items: 2)
     end
 
     def edit
@@ -40,10 +37,16 @@ module Admin
     def create
       @post = current_user.posts.build(post_params)
       if @post.save
-        redirect_to admin_posts_path
+        respond_to do |format|
+          format.turbo_stream do
+            @pagy, @posts = pagy(Post.order(created_at: :desc), items: 2)
+            render turbo_stream: turbo_stream.update(:post, partial: "posts", locals: { posts: @posts, pagy: @pagy })
+          end
+        end
         flash[:success] = 'Post created'
       else
-        render :new, status: :unprocessable_entity
+        @pagy, @posts = pagy(Post.order(created_at: :desc), items: 2)
+        render :index, status: :unprocessable_entity
       end
     end
 
