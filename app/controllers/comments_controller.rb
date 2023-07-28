@@ -11,8 +11,13 @@ class CommentsController < AdminController
     @comment = @post.comments.new(comment_params)
     @comment.user = current_user
     if @comment.save
-      redirect_to posts_path
-      flash[:success] = 'Comment go approved to admin!'
+      
+      respond_to do |format|
+        format.html do
+          flash[:success] = 'Comment go approved to admin!'
+          redirect_to posts_path
+        end
+      end
     else
       @pagy, @comments = pagy(@post.comments.approved, items: 2)
       render 'posts/show', status: :unprocessable_entity
