@@ -1,13 +1,30 @@
+<p>
+  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    <%= @ButtonCreateUpdate ? "Update Comment" : "Create Comment" %>
+  </button>
+</p>
+<div class="collapse mb-3" id="collapseExample">
+  <div class="card card-body">
+   <div id="errors">
+      <%= render 'shared/errors', object: comment %>
+    </div>
+    <%= form_with model: [@post, comment], id: "form_post", data: { turbo_frame: "target" }  do |f| %>
 
-<%= render 'shared/errors', object: @comment %>
-<%= form_with model: [@post, @comment] do |f| %>
+      <div class="mb-3">
+        <%= f.label :body, class: "form-label" %>
+        <%= f.text_field :body, class: "form-control", id: "postContent", placeholder: "Body" %>
+      </div>
 
-  <div class="field mb-2">
-    <%= f.label :body %><br />
-    <%= f.text_field :body, placeholder: "body" %>
+      <div class="field mb-3">
+          <% if @ButtonCreateUpdate %>
+            <%= f.submit "Update Comment", class: "btn btn-primary" %>
+          <% else %>
+            <%= f.submit "Create Comment", class: "btn btn-primary" %>
+          <% end %>
+      </div>
+      
+    <% end %>
   </div>
+</div>
 
-  <div class="field mb-3">
-    <%= f.submit "Отправить" %>
-  </div>
-<% end %>
+

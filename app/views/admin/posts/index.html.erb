@@ -1,9 +1,10 @@
 <div class="container">
-  <% if flash[:success].present? %>
-    <h3 class="mb-md-5"> <%= flash[:success] %> </h3>
-  <% end %>
+  <div id="flash">
+  </div>
   <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-      <%= render 'shared/form' %>
+    <div id="form">
+      <%= render 'shared/form', post: @post %>
+    </div>
     <div id="post">
       <%= render 'posts' %>
     </div>

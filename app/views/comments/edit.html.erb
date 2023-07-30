@@ -1,1 +1,9 @@
-<%= render 'shared/formComment' %>
+<ul>
+  <li>
+    <p> <%= @comment.body %> </p>
+  </li>
+  <li class="list-group">
+    <h6> <%= @comment.user.full_name %> </h6>
+  </li>
+</ul>
+<%= render 'shared/formComment', comment: @comment %>

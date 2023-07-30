@@ -13,6 +13,7 @@ module Admin
 
     def edit
       @pagy, @comments = pagy(@post.comments, items: 2)
+      @UpdateCreateButton = " "
     end
 
     def destroy
@@ -26,11 +27,16 @@ module Admin
 
     def update
       if @post.update(post_params)
-        redirect_to edit_admin_post_path
-        flash[:success] = 'Post updated'
+        respond_to do |format|
+          format.turbo_stream do
+            flash[:success] = 'Post Updated'
+            render turbo_stream: [turbo_stream.update(:post, partial: "postEdit", locals: { post: @post}), 
+                                 turbo_stream.update(:form, partial: "shared/form", locals: { post: @post}), 
+                                 turbo_stream.update(:flash, partial: "shared/flash")]
+          end
+        end
       else
-        @pagy, @comments = pagy(@post.comments, items: 2)
-        render :edit, status: :unprocessable_entity
+        render turbo_stream: turbo_stream.update(:errors, partial: "shared/errors", status: :unprocessable_entity, locals: { object: @post})
       end
     end
 
@@ -40,13 +46,14 @@ module Admin
         respond_to do |format|
           format.turbo_stream do
             @pagy, @posts = pagy(Post.order(created_at: :desc), items: 2)
-            render turbo_stream: turbo_stream.update(:post, partial: "posts", locals: { posts: @posts, pagy: @pagy })
+            flash[:success] = 'Post created'
+            render turbo_stream: [turbo_stream.update(:post, partial: "posts", locals: { posts: @posts, pagy: @pagy }), 
+                                 turbo_stream.update(:form, partial: "shared/form", locals: { post: Post.new }), 
+                                 turbo_stream.update(:flash, partial: "shared/flash")]
           end
         end
-        flash[:success] = 'Post created'
       else
-        @pagy, @posts = pagy(Post.order(created_at: :desc), items: 2)
-        render :index, status: :unprocessable_entity
+        render turbo_stream: turbo_stream.update(:errors, partial: "shared/errors", status: :unprocessable_entity, locals: { object: @post})
       end
     end
 

@@ -1,17 +1,36 @@
-<%= render 'shared/errors', object: @post %>
-<%= form_with model: [:admin, @post], data: { turbo_frame: "target" } do |f| %>
 
-  <div class="field">
-    <%= f.label :title %><br />
-    <%= f.text_field :title, placeholder: "title" %>
-  </div>
+<p>
+  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    <%= @UpdateCreateButton ? "Update Post" : "Create Post" %>
+  </button>
+</p>
+<div class="collapse mb-3" id="collapseExample">
+  <div class="card card-body">
+    <div id="errors">
+      <%= render 'shared/errors', object: post %>
+    </div>
+    <%= form_with model: [:admin, post], id: "form_post", data: { turbo_frame: "target" } do |f| %>
 
-  <div class="field">
-    <%= f.label :body %><br />
-    <%= f.text_field :body, placeholder: "body" %>
-  </div>
+      <div class="mb-3">
+        <%= f.label :title, class: "form-label" %>
+        <%= f.text_field :title, class: "form-control", id: "postTitle", placeholder: "Title" %>
+      </div>
 
-  <div class="field mb-3">
-    <%= f.submit "Отправить" %>
+      <div class="mb-3">
+        <%= f.label :body, class: "form-label" %>
+        <%= f.text_field :body, class: "form-control", id: "postContent", placeholder: "Body" %>
+      </div>
+
+      <div class="field mb-3">
+        <% if @UpdateCreateButton %>
+          <%= f.submit "Update Post", class: "btn btn-primary" %>
+        <% else %>
+          <%= f.submit "Create Post", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+      
+    <% end %>
   </div>
-<% end %>
+</div>
+
+
