@@ -29,12 +29,8 @@ class CommentsController < AdminController
   def destroy
     @comment = @post.comments.find(params[:id])
     if @comment.destroy
-      respond_to do |format|
-        format.turbo_stream do
-          flash[:success] = 'Comment deleted!'
-          render turbo_stream: turbo_stream.update(:comments, partial: "admin/posts/comments", locals: { comments: @comment})
-        end
-      end
+      redirect_to edit_admin_post_path(@post)
+      flash[:success] = 'Comment deleted!'
     else
       flash[:success] = 'Errors!'
       redirect_to edit_admin_post_path(@post)
