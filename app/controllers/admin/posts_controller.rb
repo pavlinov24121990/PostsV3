@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Admin
   class PostsController < AdminController
     before_action :post_find, only: %i[edit destroy update]

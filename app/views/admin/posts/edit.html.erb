@@ -16,9 +16,8 @@
     <li class="list-group mb-5">
       <%= link_to "Delete post", admin_post_path(@post), data: { turbo_method: :delete, turbo_confirm: "Are you shure?" } %>
     </li>
-    <div id="comments">
-      <%= render partial: 'comments', collection: @comments%>
+    <div id="comments_paginate">
+      <%= render partial: 'comments'%>
     </div>
   </ul>
-  <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
 </div>
