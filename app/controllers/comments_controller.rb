@@ -56,6 +56,19 @@ class CommentsController < ApplicationController
     end
   end
 
+  protected
+
+  def authenticate_user!
+    unless user_signed_in?
+      store_location_for(:user, request.fullpath)
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.prepend(:modal, partial: "shared/modal")
+        end
+      end
+    end
+  end
+
   private
 
   def comment_params

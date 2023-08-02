@@ -1,12 +1,9 @@
-<button type="button" class="nav-link px-5 mr-10" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-  Log in
-</button>
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Log in</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" onclick="closePopup()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -28,7 +25,7 @@
           <% end %>
           <%= render "devise/shared/links" %>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" onclick="closePopup()" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <div class="actions">
               <%= f.submit "Log in", class: "btn btn-primary" %>
             </div>
@@ -38,3 +35,48 @@
     </div>
   </div>
 </div>
+
+<script>
+function showPopup() {
+  let modal = document.getElementById('staticBackdrop');
+  modal.style.display = 'block';
+  modal.classList.add("show");
+  modal.setAttribute("role", "dialog");
+  modal.style.position = 'fixed';
+
+  let b = document.body;
+  b.classList.add("modal-open");
+  b.setAttribute('data-bs-overflow', 'hidden');
+  b.setAttribute('data-bs-padding-right', '0px');
+  b.style.overflow = 'hidden';
+  b.style.backgroundColor = '#212529'
+
+  let form = document.getElementById('form');
+  form.style.display = 'none';
+
+  let nav = document.getElementById('navPanel');
+  nav.style.display = 'none';
+}
+function closePopup() {
+  let modal = document.getElementById('staticBackdrop');
+  modal.style.display = 'none';
+  modal.classList.add("modal", "fade");
+  modal.removeAttribute("role");
+  modal.style.position = '';
+
+  let b = document.body;
+  b.classList.remove("modal-open");
+  b.removeAttribute('data-bs-overflow');
+  b.removeAttribute('data-bs-padding-right');
+  b.style.overflow = '';
+  b.style.backgroundColor = '';
+
+  let form = document.getElementById('form');
+  form.style.display = 'block';
+
+  let nav = document.getElementById('navPanel');
+  nav.style.display = 'block';
+}
+
+window.onload = showPopup();
+</script>
