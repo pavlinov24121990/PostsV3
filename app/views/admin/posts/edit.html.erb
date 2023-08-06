@@ -1,15 +1,23 @@
 <div class="container">
-  <% if flash[:success].present? || flash[:alert].present?%>
-    <h3 class="mb-md-5"> <%= flash[:success] %> <%= flash[:alert] %> </h3>
-  <% end %>
-  <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-3">
+  <div id="flash">
+    <% if flash[:success] %>
+      <h3> <%= flash[:success] %> </h3>
+    <% end %>
+  </div>
+  <div id="post">
+    <%= render "postEdit", post: @post %>
+  </div>
+  <ul>
     <li class="list-group">
-      <%= render 'shared/form' %>
+      <div id="form">
+        <%= render 'shared/form', post: @post %>
+      </div>
     </li>
     <li class="list-group mb-5">
       <%= link_to "Delete post", admin_post_path(@post), data: { turbo_method: :delete, turbo_confirm: "Are you shure?" } %>
     </li>
-    <%= render partial: 'comments', collection: @comments%>
+    <div id="comments_paginate">
+      <%= render partial: 'comments'%>
+    </div>
   </ul>
-  <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
 </div>

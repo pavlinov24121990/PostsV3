@@ -3,20 +3,18 @@
   <head>
     <title>PostV3</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= javascript_include_tag "turbo", type: "module" %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "application" %>
   </head>
   <body>
-  <script>
-    document.addEventListener("turbo:submit-end", function(event) {
-      var form = event.detail.form;
-      form.reset();
-    });
-  </script>
-    <%= render 'shared/nav'%>
-    <%= yield %>
+      <div id="modal">
+        <%= render "devise/sessions/new", show_modal: false %>
+      </div>
+      <%= render 'shared/nav'%>
+      <%= yield %>
   </body>
 </html>

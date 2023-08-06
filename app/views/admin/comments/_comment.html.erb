@@ -1,0 +1,17 @@
+<li>
+  <p> <%= comment.body %> </p>
+</li>
+<li class="list-group">
+  <h6> <%= comment.user.full_name %> </h6>
+</li>
+<% unless comment.approved? %>
+  <li class="list-group">
+    <%= link_to "Approve", admin_post_comment_path(@post, comment), data: { turbo_method: :patch, turbo_confirm: "Are you shure?" } %>
+  </li>
+<% end %>
+<li class="list-group">
+  <%= link_to "Delete comment", post_comment_path(@post, comment), data: { turbo_method: :delete, turbo_confirm: "Are you shure?" }%>
+</li>
+<li class="list-group mb-5">
+  <%= link_to "Update comment", edit_post_comment_path(@post, comment) %>
+</li>

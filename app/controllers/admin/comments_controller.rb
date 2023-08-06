@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Admin
   class CommentsController < AdminController
     def update
@@ -9,7 +7,6 @@ module Admin
         flash[:success] = 'Comment approved!'
         redirect_to edit_admin_post_path(@post)
       else
-        flash[:alert] = 'Errors!'
         redirect_to edit_admin_post_path(@post), status: :unprocessable_entity
       end
     end

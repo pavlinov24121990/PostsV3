@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class CommentsController < AdminController
-  before_action :authenticate_user!
+class CommentsController < ApplicationController
+  before_action :authenticate_user!, only: %i[create]
   before_action :post_find
   before_action :comment_find, except: %i[create]
 
@@ -11,44 +11,61 @@ class CommentsController < AdminController
     @comment = @post.comments.new(comment_params)
     @comment.user = current_user
     if @comment.save
-      redirect_to post_path(@post)
-      flash[:success] = 'Comment go approved to admin!'
+      respond_to do |format|
+        format.turbo_stream do
+          redirect_to post_path(@post)
+          flash[:success_create_comment] = 'Comment go approved to admin!'
+        end
+      end
     else
-      @pagy, @comments = pagy(@post.comments.approved, items: 2)
-      render 'posts/show', status: :unprocessable_entity
+      render turbo_stream: turbo_stream.update(:errors, partial: "shared/errors", status: :unprocessable_entity, locals: { object: @comment})
     end
   end
-      # ПРИМЕР!!!!!
-     # flash[:success] = 'Comment go approved to admin!'
-      # turbo_stream.append(:comments, @comment, partial: "comments/comments", locals: { comment: @comment })
-      #  turbo_stream.after(:append, :formComment) do
-      #   page[:f][:body].reset
-      # end
-      # respond_to do |format|
-      #   format.turbo_stream do
-      #     render turbo_stream: turbo_stream.append(:comments, @comment, partial: "comment", locals: { comment: @comment })
-      #   end
-      # end
+
+  def edit
+    @ButtonCreateUpdate = " "
+  end
 
   def destroy
     @comment = @post.comments.find(params[:id])
     if @comment.destroy
-      redirect_to edit_admin_post_path(@post)
-      flash[:success] = 'Comment deleted!'
+      respond_to do |format|
+        format.turbo_stream do
+          flash[:success] = 'Comment Deleted!'
+          @pagy, @comments = pagy(@post.comments, items: 2)
+          render turbo_stream: turbo_stream.update(:comments_paginate, partial: "admin/posts/comments", locals: { comments: @comments, pagy: @pagy })
+        end
+      end
     else
-      flash[:alert] = 'Errors!'
       redirect_to edit_admin_post_path(@post)
+      flash[:success] = 'Error'
     end
   end
 
   def update
     @comment = @post.comments.find(params[:id])
     if @comment.update(comment_params)
-      redirect_to edit_admin_post_path(@post)
-      flash[:success] = 'Comment update!'
+      respond_to do |format|
+        format.turbo_stream do
+          redirect_to edit_admin_post_path(@post)
+          flash[:success] = 'Comment update!'
+        end
+      end
     else
-      flash[:alert] = 'Errors!'
-      render :edit, status: :unprocessable_entity
+      render turbo_stream: turbo_stream.update(:errors, partial: "shared/errors", status: :unprocessable_entity, locals: { object: @comment})
+    end
+  end
+
+  protected
+
+  def authenticate_user!
+    unless user_signed_in?
+      store_location_for(:user, request.fullpath)
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.update(:modal, partial: "devise/sessions/new", locals: { show_modal: true})
+        end
+      end
     end
   end
 
