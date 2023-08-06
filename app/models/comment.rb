@@ -8,4 +8,5 @@ class Comment < ApplicationRecord
 
   scope :approved, -> { where(approved: true) }
   scope :not_aprroved, -> { where(approved: false) }
+  scope :by_creator, -> (user) { where(user: user) }
 end

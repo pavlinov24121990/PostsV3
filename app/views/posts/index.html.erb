@@ -1,6 +1,25 @@
 <div class="container">
   <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-    <%= render partial: 'posts', collection: @posts%>
+    <% @posts.each do |post| %>
+      <li>
+        <h4> <%= post.title %> </h4>
+      </li>
+      <li>
+        <p> <%= post.body %> </p>
+      </li>
+      <li class="list-group">
+        <h6> <%= post.user.full_name %> </h6>
+      </li>
+      <li class="list-group mb-2">
+          <%= link_to "Show post", post_path(post) %>
+      </li>
+      <li class="list-group mb-2">
+        <p> <%= "Количество комментариев всего #{post.comments.approved.count}" %> </p>
+      </li>
+      <li class="list-group mb-5">
+        <p> <%= "Количество комментариев на подтверждение #{post.comments.not_aprroved.count}" %> </p>
+      </li>
+    <% end %>
   </ul>
     <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
 </div>

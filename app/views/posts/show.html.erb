@@ -2,7 +2,7 @@
     <h3 class="mb-md-5"> <%= flash[:success_create_comment] %> </h3>
 <% end %>
 <div class="container">
-  <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+  <ul class="col-12 col-lg-auto me-lg-auto justify-content-center mb-md-5">
     <li>
       <h4> <%= @post.title %> </h4>
     </li>
@@ -15,9 +15,29 @@
     <div id="form">
       <%= render 'shared/formComment', comment: @comment %>
     </div>
-    <div id="comments">
-      <%= render partial: "comments/comment", collection: @comments %>
-    </div>
+    <% @comments.approved.each do |comment| %>
+      <li>
+        <p> <%= comment.body %> </p>
+      </li>
+      <li class="list-group mb-2">
+        <h6> <%= comment.user.full_name %> </h6>
+      </li>
+    <% end %>
+    <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
   </ul>
-  <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+    <h3> Not Approved Comments </h3>
+  <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+    <% @comments_not_approved.each do |comment| %>
+      <li>
+        <p> <%= comment.body %> </p>
+      </li>
+      <li class="list-group mb-1">
+        <h6> <%= comment.user.full_name %> </h6>
+      </li>
+      <li class="list-group mb-5">
+        <%= link_to "Update comment", edit_post_comment_path(@post, comment) %>
+      </li>
+    <% end %>
+  </ul>
+  <%== pagy_nav(@pagy_comment_not_aprroved) if @pagy_comment_not_aprroved.pages > 1 %>
 </div>

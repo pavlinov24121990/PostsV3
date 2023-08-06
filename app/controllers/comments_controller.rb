@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
 class CommentsController < ApplicationController
-  before_action :authenticate_user!, only: %i[create]
+  before_action :authenticate_user!
   before_action :post_find
   before_action :comment_find, except: %i[create]
 
@@ -26,28 +24,12 @@ class CommentsController < ApplicationController
     @ButtonCreateUpdate = " "
   end
 
-  def destroy
-    @comment = @post.comments.find(params[:id])
-    if @comment.destroy
-      respond_to do |format|
-        format.turbo_stream do
-          flash[:success] = 'Comment Deleted!'
-          @pagy, @comments = pagy(@post.comments, items: 2)
-          render turbo_stream: turbo_stream.update(:comments_paginate, partial: "admin/posts/comments", locals: { comments: @comments, pagy: @pagy })
-        end
-      end
-    else
-      redirect_to edit_admin_post_path(@post)
-      flash[:success] = 'Error'
-    end
-  end
-
   def update
     @comment = @post.comments.find(params[:id])
     if @comment.update(comment_params)
       respond_to do |format|
         format.turbo_stream do
-          redirect_to edit_admin_post_path(@post)
+          redirect_to post_path(@post)
           flash[:success] = 'Comment update!'
         end
       end
