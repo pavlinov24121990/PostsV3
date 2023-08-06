@@ -3,8 +3,8 @@
 Rails.application.routes.draw do
   devise_for :users
   namespace :admin do
-    resources :posts, except: %i[show] do
-      resources :comments, only: %i[update]
+    resources :posts, except: %i[show new] do
+      resources :comments, only: %i[update destroy]
     end
   end
   resources :posts, only: %i[index show] do

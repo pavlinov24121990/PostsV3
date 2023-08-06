@@ -1,4 +1,5 @@
 module Admin
+  
   class CommentsController < AdminController
     
     before_action :post_find
@@ -10,42 +11,50 @@ module Admin
       @post = Post.find(params[:post_id])
       @comment = @post.comments.find(params[:id])
       if @comment.update(approved: true)
-        flash[:success] = 'Comment approved!'
-        redirect_to edit_admin_post_path(@post)
+        respond_to do |format|
+          format.turbo_stream do
+            flash[:success] = 'Comment approved!'
+            @pagy, @comments = pagy(@post.comments, request_path: '/admin/posts/135/edit', items: 2)
+            render turbo_stream: [turbo_stream.update(:comments, partial: "admin/comments/comments", locals: { comment: @comments, pagy: @pagy }), 
+                                  turbo_stream.update(:flash, partial: "shared/flash")]
+          end
+        end
       else
         redirect_to edit_admin_post_path(@post), status: :unprocessable_entity
       end
     end
-  end
 
- def destroy
-    @comment = @post.comments.find(params[:id])
-    if @comment.destroy
-      respond_to do |format|
-        format.turbo_stream do
-          flash[:success] = 'Comment Deleted!'
-          @pagy, @comments = pagy(@post.comments, items: 2)
-          render turbo_stream: turbo_stream.update(:comments_paginate, partial: "admin/posts/comments", locals: { comments: @comments, pagy: @pagy })
+  def destroy
+      @comment = @post.comments.find(params[:id])
+      if @comment.destroy
+        respond_to do |format|
+          format.turbo_stream do
+            flash[:success] = 'Comment Deleted!'
+            @pagy, @comments = pagy(@post.comments, request_path: '/admin/posts/135/edit', items: 2)
+            render turbo_stream: [turbo_stream.update(:comments, partial: "admin/comments/comments", locals: { comment: @comments, pagy: @pagy}), 
+                                  turbo_stream.update(:flash, partial: "shared/flash")]
+          end
         end
+      else
+        redirect_to edit_admin_post_path(@post)
+        flash[:success] = 'Error'
       end
-    else
-      redirect_to edit_admin_post_path(@post)
-      flash[:success] = 'Error'
     end
-  end
 
-  private
+    private
 
-  def comment_params
-    params.require(:comment).permit(:body)
-  end
+    def comment_params
+      params.require(:comment).permit(:body)
+    end
 
-  def post_find
-    @post = Post.find(params[:post_id])
-  end
+    def post_find
+      @post = Post.find(params[:post_id])
+    end
 
-  def comment_find
-    @comment = @post.comments.find(params[:id])
+    def comment_find
+      @comment = @post.comments.find(params[:id])
+    end
+
   end
 
 end

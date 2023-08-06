@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  
+
   include Pagy::Backend
 
   def index

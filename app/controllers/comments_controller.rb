@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+  
   before_action :authenticate_user!
   before_action :post_find
   before_action :comment_find, except: %i[create]
@@ -64,4 +65,5 @@ class CommentsController < ApplicationController
   def comment_find
     @comment = @post.comments.find(params[:id])
   end
+
 end

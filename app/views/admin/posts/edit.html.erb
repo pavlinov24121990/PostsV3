@@ -1,11 +1,18 @@
 <div class="container">
   <div id="flash">
-    <% if flash[:success] %>
-      <h3> <%= flash[:success] %> </h3>
-    <% end %>
   </div>
   <div id="post">
-    <%= render "postEdit", post: @post %>
+    <ul class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-3">
+      <li>
+        <h4> <%= @post.title %> </h4>
+      </li>
+      <li>
+        <p> <%= @post.body %> </p>
+      </li>
+      <li class="list-group">
+        <h6> <%= @post.user.full_name %> </h6>
+      </li>
+    </ul>
   </div>
   <ul>
     <li class="list-group">
@@ -16,8 +23,8 @@
     <li class="list-group mb-5">
       <%= link_to "Delete post", admin_post_path(@post), data: { turbo_method: :delete, turbo_confirm: "Are you shure?" } %>
     </li>
-    <div id="comments_paginate">
-      <%= render partial: 'comments'%>
+    <div id="comments">
+      <%= render 'admin/comments/comments' %>
     </div>
   </ul>
 </div>
