@@ -7,13 +7,14 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "application" %>
   </head>
   <body>
-    <div id="modal">
+      <div id="modal">
+        <%= render "devise/sessions/new", show_modal: false %>
+      </div>
       <%= render 'shared/nav'%>
       <%= yield %>
-    </div>
   </body>
 </html>

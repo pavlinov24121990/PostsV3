@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: %i[create]
   before_action :post_find
   before_action :comment_find, except: %i[create]
 
@@ -63,7 +63,7 @@ class CommentsController < ApplicationController
       store_location_for(:user, request.fullpath)
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.prepend(:modal, partial: "shared/modal")
+          render turbo_stream: turbo_stream.update(:modal, partial: "devise/sessions/new", locals: { show_modal: true})
         end
       end
     end
