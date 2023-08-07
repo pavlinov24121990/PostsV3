@@ -9,6 +9,8 @@
         <h5 class="modal-title" id="staticBackdropLabel">Log in</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div id="flash_session">
+      </div>
       <div class="modal-body">
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
           <div class="field">
