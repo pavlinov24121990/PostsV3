@@ -14,7 +14,7 @@ module Admin
         respond_to do |format|
           format.turbo_stream do
             flash[:success] = 'Comment approved!'
-            @pagy, @comments = pagy(@post.comments, request_path: '/admin/posts/135/edit', items: 2)
+            @pagy, @comments = pagy(@post.comments, request_path: "/admin/posts/#{@post.id}/edit", items: 2)
             render turbo_stream: [turbo_stream.update(:comments, partial: "admin/comments/comments", locals: { comment: @comments, pagy: @pagy }), 
                                   turbo_stream.update(:flash, partial: "shared/flash")]
           end
@@ -30,7 +30,7 @@ module Admin
         respond_to do |format|
           format.turbo_stream do
             flash[:success] = 'Comment Deleted!'
-            @pagy, @comments = pagy(@post.comments, request_path: '/admin/posts/135/edit', items: 2)
+            @pagy, @comments = pagy(@post.comments, request_path: "/admin/posts/#{@post.id}/edit", items: 2)
             render turbo_stream: [turbo_stream.update(:comments, partial: "admin/comments/comments", locals: { comment: @comments, pagy: @pagy}), 
                                   turbo_stream.update(:flash, partial: "shared/flash")]
           end
