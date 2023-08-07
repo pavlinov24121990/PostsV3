@@ -15,8 +15,10 @@
       <%= link_to "Approve", admin_post_comment_path(@post, comment), data: { turbo_method: :patch, turbo_confirm: "Are you shure?" } %>
     </li>
   <% end %>
-  <li class="list-group mb-5">
-    <%= link_to "Delete comment", mark_destroy_admin_post_comment_path(@post, comment), data: { turbo_method: :patch, turbo_confirm: "Are you shure?" }%>
-  </li>
+  <% unless comment.scheduled_for_deletion_at? %>
+    <li class="list-group mb-5">
+      <%= link_to "Delete comment", mark_destroy_admin_post_comment_path(@post, comment), data: { turbo_method: :patch, turbo_confirm: "Are you shure?" }%>
+    </li>
+  <% end %>
 <% end %>
 <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
