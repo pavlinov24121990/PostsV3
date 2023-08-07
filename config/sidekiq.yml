@@ -1,0 +1,4 @@
+:schedule:
+  scheduled_comment_cleanup:
+    cron: "0 * * * *"
+    class: "ScheduledCommentCleanupJob"

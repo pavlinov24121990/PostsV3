@@ -82,3 +82,8 @@ end
 gem 'devise', '~> 4.9'
 
 gem 'pagy', '~> 6.0'
+
+gem 'sidekiq'
+
+gem 'sidekiq-scheduler'
+

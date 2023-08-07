@@ -2,6 +2,11 @@
   <li>
     <p> <%= comment.body %> </p>
   </li>
+  <% if comment.scheduled_for_deletion_at? %>
+    <li class="list-group">
+      <h2> <%= "Комментарий будет удалён через 1 час" %> </h2>
+    </li>
+  <% end %>
   <li class="list-group">
     <h6> <%= comment.user.full_name %> </h6>
   </li>
@@ -11,7 +16,7 @@
     </li>
   <% end %>
   <li class="list-group mb-5">
-    <%= link_to "Delete comment", admin_post_comment_path(@post, comment), data: { turbo_method: :delete, turbo_confirm: "Are you shure?" }%>
+    <%= link_to "Delete comment", mark_destroy_admin_post_comment_path(@post, comment), data: { turbo_method: :patch, turbo_confirm: "Are you shure?" }%>
   </li>
 <% end %>
 <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
