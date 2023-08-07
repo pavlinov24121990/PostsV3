@@ -1,0 +1,5 @@
+<% if comment.scheduled_for_deletion_at? %>
+  <li class="list-group">
+    <h2> <%= "Комментарий будет удалён через 1 час" %> </h2>
+  </li>
+<% end %>

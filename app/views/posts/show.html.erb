@@ -19,11 +19,7 @@
       <li>
         <p> <%= comment.body %> </p>
       </li>
-      <% if comment.scheduled_for_deletion_at? %>
-        <li class="list-group">
-          <h2> <%= "Комментарий будет удалён через 1 час" %> </h2>
-        </li>
-      <% end %>
+      <%= render 'shared/scheduled_for_deletion_at', comment: comment  %>
       <li class="list-group mb-2">
         <h6> <%= comment.user.full_name %> </h6>
       </li>
@@ -36,11 +32,7 @@
       <li>
         <p> <%= comment.body %> </p>
       </li>
-      <% if comment.scheduled_for_deletion_at? %>
-        <li class="list-group">
-          <h2> <%= "Комментарий будет удалён через 1 час" %> </h2>
-        </li>
-      <% end %>
+      <%= render 'shared/scheduled_for_deletion_at', comment: comment %>
       <li class="list-group mb-1">
         <h6> <%= comment.user.full_name %> </h6>
       </li>
