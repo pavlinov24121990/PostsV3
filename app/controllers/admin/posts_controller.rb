@@ -1,5 +1,7 @@
 module Admin
+
   class PostsController < AdminController
+
     before_action :post_find, only: %i[edit destroy update]
 
     include Pagy::Backend
@@ -64,5 +66,7 @@ module Admin
     def post_find
       @post = Post.find(params[:id])
     end
+
   end
+
 end

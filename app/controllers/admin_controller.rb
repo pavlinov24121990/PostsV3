@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AdminController < ApplicationController
   layout 'application'
   before_action :authenticate_user!
@@ -10,4 +8,5 @@ class AdminController < ApplicationController
     super
     return head :bad_request unless current_user.admin?
   end
+
 end
