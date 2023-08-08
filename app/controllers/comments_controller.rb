@@ -46,7 +46,8 @@ class CommentsController < ApplicationController
       store_location_for(:user, request.fullpath)
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.update(:modal, partial: "devise/sessions/new", locals: { show_modal: true})
+          render turbo_stream: [turbo_stream.update(:modal, partial: "devise/sessions/new", locals: { show_modal: true}), 
+                                turbo_stream.update(:flash_session, partial: "shared/flash")]
         end
       end
     end

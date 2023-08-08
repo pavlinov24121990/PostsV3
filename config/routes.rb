@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+  sessions: 'users/sessions'
+}
   namespace :admin do
     resources :posts, except: %i[show new] do
       resources :comments, only: %i[update destroy] do
