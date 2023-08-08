@@ -5,6 +5,7 @@
         <li>
           <%= link_to "User update", edit_user_registration_path, class: "nav-link px-5 mr-10" %>
           <%= current_user.full_name %>
+          <%= image_tag current_user.avatar, size: "50x50" %>
         </li>
       <% end %>
       <li>
