@@ -21,6 +21,11 @@
         <%= f.text_field :body, class: "form-control", id: "postContent", placeholder: "Body" %>
       </div>
 
+      <div class="field">
+        <%= f.label :images %><br />
+        <%= f.file_field :images, multiple: true %>
+      </div>
+
       <div class="field mb-3">
         <% if @UpdateCreateButton %>
           <%= f.submit "Update Post", class: "btn btn-primary" %>
